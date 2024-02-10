@@ -3,6 +3,9 @@
 Basic Named Entity Extractor using spaCy and FastAPI
 ```
 
+## Description
+Project to understand how to deploy a basic ML model into production using a docker image on AWS
+
 ## Further Reading
 
 This is filler text, please replace this with a explanatory text about further relevant resources for this repo
