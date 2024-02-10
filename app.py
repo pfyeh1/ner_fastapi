@@ -16,11 +16,13 @@ def load_entity_dicts(config_file):
     return config["entity_dicts"]
 
 def extract_entities(text):
+    """
+    extracts entities and associated labels
+    :param text: document text
+    returns dictionary of entity and label
+    """
     doc = nlp(text)
-    entities = []
-    for ent in doc.ents:
-        entities.append({'text': ent.text,
-                         'label': ent.label_})
+    entities = [(ent.text, ent.label_) for ent in doc.ents]
     return entities
 
 # define route
@@ -29,8 +31,8 @@ def extract_entities(text):
 def read_main():
     return {"message": "Hello!"}
 
-@app.post("/ner")
-async def analyze_ner(text: str):
+@app.post("/entities")
+async def analyze_text(text: str):
     try:
         entities = extract_entities(text)
         return {"entities": entities}
