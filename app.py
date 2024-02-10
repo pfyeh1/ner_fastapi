@@ -42,7 +42,7 @@ class Article(BaseModel):
 def read_main():
     return {"message": "Hello!"}
 
-@app.post("/ner")
+@app.post("/entities")
 async def analyze_text(query: Article):
     try:
         entities = extract_entities(query.text)
