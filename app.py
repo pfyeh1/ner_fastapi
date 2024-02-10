@@ -1,6 +1,7 @@
 
 from fastapi import FastAPI, HTTPException
 import spacy
+import json
 
 # import language model
 spacy.cli.download("en_core_web_sm")
