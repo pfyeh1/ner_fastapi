@@ -25,9 +25,11 @@ def extract_entities(text):
     """
     doc = nlp(text)
     results = {}
-    entities = [(ent.text, ent.label_) for ent in doc.ents]
-    labels =Counter([x[1] for x in entities])
-    results['entities'] = entities
+    ents_labels = [(x.text, x.label_) for x in doc.ents]
+    labels = Counter([x[1] for x in ents_labels])
+
+    results['ents_labels'] = ents_labels
+    results['entities'] = [x[0] for x in ents_labels]
     results['labels'] = labels
 
     return results
