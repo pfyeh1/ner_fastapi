@@ -1,15 +1,7 @@
 # NER using spaCy and FastAPI
 ```
-Sandbox for learning FastAPI
+Basic Named Entity Extractor using spaCy and FastAPI
 ```
-
-## Demo App
-
-Not applicable
-
-## Section Heading
-
-This is filler text, please replace this with text for this section.
 
 ## Further Reading
 
