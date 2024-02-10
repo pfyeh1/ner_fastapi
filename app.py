@@ -2,6 +2,7 @@
 from fastapi import FastAPI, HTTPException
 import spacy
 import json
+from pydantic import BaseModel
 
 # import language model
 spacy.cli.download("en_core_web_sm")
@@ -25,6 +26,10 @@ def extract_entities(text):
     entities = [(ent.text, ent.label_) for ent in doc.ents]
     return entities
 
+class NerQuery(BaseModel):
+    text: str
+
+
 # define route
 
 @app.get("/")
@@ -32,9 +37,9 @@ def read_main():
     return {"message": "Hello!"}
 
 @app.post("/entities")
-async def analyze_text(text: str):
+async def analyze_text(query: NerQuery):
     try:
-        entities = extract_entities(text)
+        entities = extract_entities(query.text)
         return {"entities": entities}
     except Exception as e:
         raise HTTPException(status_code = 500, detail = str(e))
