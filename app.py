@@ -26,7 +26,7 @@ def extract_entities(text):
     entities = [(ent.text, ent.label_) for ent in doc.ents]
     return entities
 
-class NerQuery(BaseModel):
+class Article(BaseModel):
     text: str
 
 
@@ -37,7 +37,7 @@ def read_main():
     return {"message": "Hello!"}
 
 @app.post("/entities")
-async def analyze_text(query: NerQuery):
+async def analyze_text(query: Article):
     try:
         entities = extract_entities(query.text)
         return {"entities": entities}
