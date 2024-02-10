@@ -3,6 +3,7 @@ from fastapi import FastAPI, HTTPException
 import spacy
 import json
 from pydantic import BaseModel
+from collections import Counter
 
 # import language model
 spacy.cli.download("en_core_web_sm")
@@ -19,12 +20,17 @@ def load_entity_dicts(config_file):
 def extract_entities(text):
     """
     extracts entities and associated labels
-    :param text: document text
+    :param text: article text
     returns dictionary of entity and label
     """
     doc = nlp(text)
+    results = {}
     entities = [(ent.text, ent.label_) for ent in doc.ents]
-    return entities
+    labels =Counter([x[1] for x in entities])
+    results['entities'] = entities
+    results['labels'] = labels
+
+    return results
 
 class Article(BaseModel):
     text: str
@@ -36,7 +42,7 @@ class Article(BaseModel):
 def read_main():
     return {"message": "Hello!"}
 
-@app.post("/entities")
+@app.post("/ner")
 async def analyze_text(query: Article):
     try:
         entities = extract_entities(query.text)
