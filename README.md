@@ -8,7 +8,7 @@ Project to understand how to deploy a basic ML model into production using Docke
 
 ## Further Reading
 
-This is filler text, please replace this with a explanatory text about further relevant resources for this repo
+Helpful links on integrating spaCy and FastAPI, dockerizing your app, pushing docker images into AWS's ECR and pulling the image to deploy on EC2.
 - https://medium.com/@meetakoti.kirankumar/deploying-fastapi-web-application-in-aws-a1995675087d
 - https://towardsdatascience.com/deploying-your-first-machine-learning-api-1649236c695e
 - https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/
