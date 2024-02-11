@@ -14,6 +14,7 @@ This is filler text, please replace this with a explanatory text about further r
 - https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/
 - https://www.freecodecamp.org/news/build-and-push-docker-images-to-aws-ecr/
 - https://levelup.gitconnected.com/deploy-a-dockerized-fastapi-application-to-aws-cc757830ba1b
+- https://plainenglish.io/community/how-to-deploy-a-docker-image-to-amazon-ecr-and-run-it-on-amazon-ec2-3a8445
 
 
 
