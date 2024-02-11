@@ -6,8 +6,8 @@ from pydantic import BaseModel
 from collections import Counter
 
 # import language model
-spacy.cli.download("en_core_web_sm")
-nlp = spacy.load("en_core_web_sm")
+spacy.cli.download("en_core_web_md")
+nlp = spacy.load("en_core_web_md")
 
 app = FastAPI()
 
