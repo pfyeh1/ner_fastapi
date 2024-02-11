@@ -10,10 +10,11 @@ Project to understand how to deploy a basic ML model into production using Docke
 
 This is filler text, please replace this with a explanatory text about further relevant resources for this repo
 - https://medium.com/@meetakoti.kirankumar/deploying-fastapi-web-application-in-aws-a1995675087d
-- https://medium.com/@meetakoti.kirankumar/deploying-fastapi-web-application-in-aws-a1995675087d
 - https://towardsdatascience.com/deploying-your-first-machine-learning-api-1649236c695e
 - https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/
 - https://www.freecodecamp.org/news/build-and-push-docker-images-to-aws-ecr/
+- https://levelup.gitconnected.com/deploy-a-dockerized-fastapi-application-to-aws-cc757830ba1b
+
 
 
 
