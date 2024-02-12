@@ -27,10 +27,12 @@ def extract_entities(text):
     results = {}
     ents_labels = [(x.text, x.label_) for x in doc.ents]
     labels = Counter([x[1] for x in ents_labels])
+    ent_counts = Counter([x[0] for x in ents_labels])
 
     results['ents_labels'] = ents_labels
     results['entities'] = [x[0] for x in ents_labels]
     results['labels'] = labels
+    results['ent_counts'] = ent_counts
 
     return results
 
