@@ -19,6 +19,12 @@ app = FastAPI()
 
 # load entity dictionaries from config file
 def load_entity_dicts(config_file):
+    """
+    load entity dictionary from json config file
+    :param config_file: path to config file
+    :return: dictionary 
+    
+    """
     with open(config_file, "r") as f:
         config = json.load(f)
     return config["entity_dicts"]
@@ -31,12 +37,20 @@ def extract_entities(text):
     """
     doc = nlp(text)
     results = {}
-    ents_labels = [(x.text, x.label_) for x in doc.ents]
-    labels = Counter([x[1] for x in ents_labels])
-    ent_counts = Counter([x[0] for x in ents_labels])
+    labels = [
+        "GPE",
+        "FAC",
+        "NORP",
+        "PERSON",
+        "ORG",
+        "PRODUCT",
+        "LOC"]
+    items = [(x.text, x.label_) for x in doc.ents if x.label in labels]
+    labels = Counter([x[1] for x in items])
+    ent_counts = Counter([x[0] for x in items])
 
-    results['ents_labels'] = ents_labels
-    results['entities'] = [x[0] for x in ents_labels]
+    results['ents_labels'] = items
+    results['entities'] = [x[0] for x in items]
     results['labels'] = labels
     results['ent_counts'] = ent_counts
 
@@ -48,7 +62,7 @@ class Article(BaseModel):
 # define route
 @app.get("/")
 def read_main():
-    return {"message": "Hello!"}
+    return {"message": "Welcome to your basic NER app!"}
 
 @app.post("/entities")
 async def analyze_text(query: Article):
