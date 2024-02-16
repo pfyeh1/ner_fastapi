@@ -5,6 +5,7 @@ import json
 from pydantic import BaseModel
 from collections import Counter
 
+import os
 import spacy
 from spacy import displacy
 
@@ -18,18 +19,29 @@ nlp = spacy.load("en_core_web_md")
 app = FastAPI()
 
 # load entity dictionaries from config file
-def load_entity_dicts(config_file):
+def load_config_from_env():
     """
-    load entity dictionary from json config file
+    load dicts from json config file
     :param config_file: path to config file
     :return: dictionary 
     
     """
-    with open(config_file, "r") as f:
+    config_file_path = os.getenv("CONFIG_FILE_PATH")
+    if not config_file_path:
+        raise ValueError("CONFIG_FILE_PATH environment variable is not set")
+    
+    with open(config_file_path, "r") as f:
         config = json.load(f)
-    return config["entity_dicts"]
+    return config["entity_dicts"], config["allowed_labels"]
 
-def extract_entities(text):
+#load dictionaries from config file
+entity_dicts, allowed_labels = load_config_from_env()
+
+# add entity ruler patterns to spaCy pipeline
+ruler = nlp.add_pipe("entity_ruler")
+ruler.add_patterns(entity_dicts)
+
+def extract_entities(text, allowed_labels):
     """
     extracts entities and associated labels
     :param text: article text
@@ -37,15 +49,7 @@ def extract_entities(text):
     """
     doc = nlp(text)
     results = {}
-    labels = [
-        "GPE",
-        "FAC",
-        "NORP",
-        "PERSON",
-        "ORG",
-        "PRODUCT",
-        "LOC"]
-    items = [(x.text, x.label_) for x in doc.ents if x.label in labels]
+    items = [(x.text, x.label_) for x in doc.ents if x.label_ in allowed_labels]
     labels = Counter([x[1] for x in items])
     ent_counts = Counter([x[0] for x in items])
 
@@ -67,7 +71,7 @@ def read_main():
 @app.post("/entities")
 async def analyze_text(query: Article):
     try:
-        entities = extract_entities(query.text)
+        entities = extract_entities(query.text, allowed_labels)
         return {"entities": entities}
     except Exception as e:
         raise HTTPException(status_code = 500, detail = str(e))
