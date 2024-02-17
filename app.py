@@ -49,12 +49,12 @@ def extract_entities(text, allowed_labels):
     """
     doc = nlp(text)
     results = {}
-    items = [(x.text, x.label_) for x in doc.ents if x.label_ in allowed_labels]
+    items = list(set([(x.text, x.label_) for x in doc.ents if x.label_ in allowed_labels]))
     labels = Counter([x[1] for x in items])
     ent_counts = Counter([x[0] for x in items])
 
     results['ents_labels'] = items
-    results['entities'] = [x[0] for x in items]
+    results['entities'] = list(set([x[0] for x in items]))
     results['labels'] = labels
     results['ent_counts'] = ent_counts
 
@@ -132,7 +132,7 @@ async def form_get():
     <h1>Preview Extracted Entities</h1>
     <body>
     <form method="post">
-    
+
     <textarea id="msg" name="msg" rows="10" cols="100" placeholder="Enter your text here" required></textarea>
     <br><br>
     <input type="submit"/> 
