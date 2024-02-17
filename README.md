@@ -6,6 +6,11 @@ Basic Named Entity Extractor using spaCy and FastAPI
 ## Description
 Project to understand how to deploy a basic ML model into production using Docker and AWS ECR, and EC2 services. 
 
+## Getting Started
+Config file used to load custom entity lists and labels to supplement and filter pre-trained model.
+
+
+
 ## Further Reading
 
 Helpful links on integrating spaCy and FastAPI, dockerizing your app, pushing docker images into AWS's ECR and pulling the image to deploy on EC2.
