@@ -82,15 +82,61 @@ async def form_get():
     <html>
     <head>
     <title>NER Extractor</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        label, textarea {
+            display: block;
+            margin-bottom: 10px;
+        }
+        textarea {
+            width: auto;
+            min-width: 100%; /* minimum width */
+            max-width: 100%; /* maximum width */
+            height: auto;
+            min_height: 150px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
     </head>
     <br><br>
-    <h1>Extract Entities From Your Text</h1>
+    <h1>Preview Extracted Entities</h1>
     <body>
     <form method="post">
-    <label for="msg">Enter your text:</label><br>
+    
     <textarea id="msg" name="msg" rows="10" cols="100" placeholder="Enter your text here" required></textarea>
     <br><br>
     <input type="submit"/> 
+    <input type="button" value="Clear Text" onclick="document.getElementById('msg').value='';"/>
     </form>
     </body>
     </html>
@@ -102,7 +148,7 @@ async def analyze_form_text(msg: str = Form()):
     try:
         doc = nlp(msg)
         html = displacy.render(doc, style = "ent", page = True)
-        return HTMLResponse(content = html)
+        return HTMLResponse(content=html + '<br><a href="/form"><button>Go back to form</button></a>')
     except Exception as e:
         raise HTTPException(status_code = 500, detail = str(e))
 
