@@ -6,7 +6,6 @@
    
     "allowed_labels": ["GPE",
                         "FAC",
-                        "NORP",
                         "PERSON",
                         "ORG",
                         "PRODUCT",
