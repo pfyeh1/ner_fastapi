@@ -37,6 +37,9 @@ def load_config_from_env():
 #load dictionaries from config file
 entity_dicts, allowed_labels = load_config_from_env()
 
+# create dict for use in displacy
+dct = {'ents':allowed_labels}
+
 # add entity ruler patterns to spaCy pipeline
 ruler = nlp.add_pipe("entity_ruler")
 ruler.add_patterns(entity_dicts)
