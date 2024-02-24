@@ -4,17 +4,12 @@ from fastapi.responses import HTMLResponse
 import json
 from pydantic import BaseModel
 from collections import Counter
+from fastapi.templating import Jinja2Templates
 
 import os
 import spacy
 from spacy import displacy
 
-# import language model
-spacy.cli.download("en_core_web_md")
-nlp = spacy.load("en_core_web_md")
-
-#spacy.cli.download("en_core_web_sm")
-#nlp = spacy.load("en_core_web_sm")
 
 app = FastAPI()
 
@@ -32,17 +27,7 @@ def load_config_from_env():
     
     with open(config_file_path, "r") as f:
         config = json.load(f)
-    return config["entity_dicts"], config["allowed_labels"]
-
-#load dictionaries from config file
-entity_dicts, allowed_labels = load_config_from_env()
-
-# create dict for use in displacy
-dct = {'ents':allowed_labels}
-
-# add entity ruler patterns to spaCy pipeline
-ruler = nlp.add_pipe("entity_ruler")
-ruler.add_patterns(entity_dicts)
+    return config["entity_dicts"], config["allowed_labels"], config["testing"]
 
 def extract_entities(text, allowed_labels):
     """
@@ -155,3 +140,20 @@ async def analyze_form_text(msg: str = Form()):
     except Exception as e:
         raise HTTPException(status_code = 500, detail = str(e))
 
+#load dictionaries from config file
+entity_dicts, allowed_labels, testing = load_config_from_env()
+
+# import language model
+if testing == "true":
+    spacy.cli.download("en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
+else:
+    spacy.cli.download("en_core_web_md")
+    nlp = spacy.load("en_core_web_md")
+
+# create dict for use in displacy
+dct = {'ents':allowed_labels}
+
+# add entity ruler patterns to spaCy pipeline
+ruler = nlp.add_pipe("entity_ruler")
+ruler.add_patterns(entity_dicts)
