@@ -1,10 +1,11 @@
 
-from fastapi import FastAPI, HTTPException, Form
+from fastapi import FastAPI, HTTPException, Form, Request
 from fastapi.responses import HTMLResponse
 import json
 from pydantic import BaseModel
 from collections import Counter
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 
 import os
 import spacy
@@ -12,6 +13,9 @@ from spacy import displacy
 
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 # load entity dictionaries from config file
 def load_config_from_env():
@@ -53,8 +57,8 @@ class Article(BaseModel):
 
 # define route
 @app.get("/")
-def read_main():
-    return {"message": "Welcome to your basic NER app!"}
+async def read_main(request: Request):
+    return templates.TemplateResponse(request = request, name = "index.html")
 
 @app.post("/entities")
 async def analyze_text(query: Article):
