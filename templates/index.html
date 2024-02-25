@@ -3,6 +3,11 @@
 <head>
     <title>NER Extractor</title>
     <link rel="stylesheet" type="text/css" href="static/style.css">
+ <style>
+      .container button {
+       margin-top: 20px; 
+    }
+</style>
 </head>
 <body>
     <div class="container">
@@ -10,8 +15,92 @@
         <p>NER is a type of natural language processing that categories
         information in text known as named entities. These entities typically refer
         to people, places, and things. This app uses a pre-trained model from spaCy,
-        open-source library for NLP-related tasks in Python.   
+        open-source library for NLP-related tasks in Python. The model will not be 100% perfect
+        as they are highly dependent on the examples they were trained to learn patterns in text.
         </p>
+        <p>The below table shows all the possible entity types that can be extracted.
+            Highlighted rows are the entities that our model extracts.</p>
+        <a href="/form"><button>Go to Form</button></a>
+    </div>
+    <tiv class = "table-container">
+    <table>
+        <tr>
+            <th>Entity Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>CARDINAL</td>
+            <td>Numerals that do not fall under another type</td>
+        </tr>
+        <tr>
+            <td>DATE</td>
+            <td>Absolute or relative dates or periods</td>
+        </tr>
+        <tr class = "highlight">
+            <td>EVENT</td>
+            <td>Named hurricanes, battles, wars, sports events, etc.</td>
+        </tr>
+        <tr class = "highlight">
+            <td>FAC</td>
+            <td>Buildings, airports, highways, bridges, etc.</td>
+        </tr>
+        <tr class = "highlight">
+            <td>GPE</td>
+            <td>Countries, cities, states</td>
+        </tr>
+        <tr>
+            <td>LANGUAGE</td>
+            <td>Any named language</td>
+        </tr>
+        <tr class = "highlight">
+            <td>LAW</td>
+            <td>Named documents made into laws.</td>
+        </tr>
+        <tr class = "highlight">
+            <td>LOC</td>
+            <td>Non-GPE locations, mountain ranges, bodies of water</td>
+        </tr>
+        <tr>
+            <td>MONEY</td>
+            <td>Monetary values, including unit</td>
+        </tr>
+        <tr>
+            <td>NORP</td>
+            <td>Nationalities or religious or political groups</td>
+        </tr>
+        <tr>
+            <td>ORDINAL</td>
+            <td>"first", "second", etc.</td>
+        </tr>
+        <tr class = "highlight">
+            <td>ORG</td>
+            <td>Companies, agencies, institutions, etc.</td>
+        </tr>
+        <tr>
+            <td>PERCENT</td>
+            <td>Percentage, including "%"</td>
+        </tr>
+        <tr class = "highlight">
+            <td>PERSON</td>
+            <td>People, including fictional</td>
+        </tr>
+        <tr class = "highlight">
+            <td>PRODUCT</td>
+            <td>Objects, vehicles, foods, etc. (not services)</td>
+        </tr>
+        <tr>
+            <td>QUANTITY</td>
+            <td>Measurements, as of weight or distance</td>
+        </tr>
+        <tr>
+            <td>TIME</td>
+            <td>Times smaller than a day</td>
+        </tr>
+        <tr>
+            <td>WORK_OF_ART</td>
+            <td>Titles of books, songs, etc.</td>
+        </tr>
+    </table>
     </div>
 </body>
 </html>
