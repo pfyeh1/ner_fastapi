@@ -70,14 +70,20 @@ async def analyze_text(query: Article):
 
 @app.get("/form", response_class = HTMLResponse)
 async def form_get(request: Request):
-    return templates.TemplateResponse('form.html', context={'request': request, 'result': result})
+    return templates.TemplateResponse('form.html', context={'request': request})
 
 @app.post("/form", response_class = HTMLResponse)
-async def analyze_form_text(msg: str = Form()):
+async def analyze_form_text(msg: str = Form(), style: str = Form(...),
+                            ):
     try:
         doc = nlp(msg)
-        html = displacy.render(doc, style = "ent", page = True)
-        return HTMLResponse(content=html + '<br><a href="/form"><button>Go back to form</button></a>')
+        html = ""
+        if style == "ent":
+            html = displacy.render(doc, style = "ent", page = True)
+        elif style == "dep":
+            html = displacy.render(doc, style = "dep", page = True)
+        back_button = '<br><a href="/form"><button>Go back to form</button></a>'
+        return HTMLResponse(content=html + back_button)
     except Exception as e:
         raise HTTPException(status_code = 500, detail = str(e))
 

@@ -51,13 +51,16 @@
 <body>
     <div class="container">
         <h1>Preview Extracted Entities</h1>
-        <form method="post">
+        <form action = "form", method="post">
             <textarea id="msg" name="msg" rows="10" cols="100" placeholder="Enter your text here" required></textarea>
             <br><br>
-            <input type="submit"/> 
+            <input type="radio" id="ent" name="style" value="ent">
+            <label for="ent">All Extracted Entities</label><br>
+            <input type="radio" id="dep" name="style" value="dep">
+            <label for="ents">Targeted Extracted Entities</label><br>
+            <input type="submit" value="Submit"> 
             <input type="button" value="Clear Text" onclick="document.getElementById('msg').value='';"/>
         </form>
-        <p>Result: {{result}}</p>
     </div>
 </body>
 </html>
