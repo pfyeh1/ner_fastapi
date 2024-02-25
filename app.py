@@ -74,14 +74,16 @@ async def form_get(request: Request):
 
 @app.post("/form", response_class = HTMLResponse)
 async def analyze_form_text(msg: str = Form(), style: str = Form(...),
-                            ):
+       options: str = Form(...)):
     try:
         doc = nlp(msg)
         html = ""
         if style == "ent":
-            html = displacy.render(doc, style = "ent", page = True)
-        elif style == "dep":
-            html = displacy.render(doc, style = "dep", page = True)
+            if options == "dct":
+                html = displacy.render(doc, style = "ent", options = dct, page = True)
+            else:
+                html = displacy.render(doc, style = "ent", page = True)
+            
         back_button = '<br><a href="/form"><button>Go back to form</button></a>'
         return HTMLResponse(content=html + back_button)
     except Exception as e:
