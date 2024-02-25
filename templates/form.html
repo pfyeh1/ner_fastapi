@@ -54,11 +54,11 @@
         <form action = "form", method="post">
             <textarea id="msg" name="msg" rows="10" cols="100" placeholder="Enter your text here" required></textarea>
             <br><br>
-            <input type="radio" id="all" name="style" value="ent">
-            <label for="ent">All Extracted Entities</label><br>
-            <input type="radio" id="targeted" name="style" value="ent">
-            <input type="hidden" name="options" value="dct">
-            <label for="ents">Targeted Extracted Entities</label><br>
+            <!--<input type="radio" id="all" name="style" value="all">
+            <label for="all">All Extracted Entities</label><br>
+            <input type="radio" id="targeted" name="style" value="targeted">
+            <input type="hidden" name="options" value="">
+            <label for="targeted">Targeted Extracted Entities</label><br>-->
             <input type="submit" value="Submit"> 
             <input type="button" value="Clear Text" onclick="document.getElementById('msg').value='';"/>
         </form>

@@ -8,6 +8,8 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
 import os
+import json
+
 import spacy
 from spacy import displacy
 
@@ -73,17 +75,16 @@ async def form_get(request: Request):
     return templates.TemplateResponse('form.html', context={'request': request})
 
 @app.post("/form", response_class = HTMLResponse)
-async def analyze_form_text(msg: str = Form(), style: str = Form(...),
-       options: str = Form(...)):
+async def analyze_form_text(msg: str = Form()):
     try:
         doc = nlp(msg)
-        html = ""
-        if style == "ent":
-            if options == "dct":
-                html = displacy.render(doc, style = "ent", options = dct, page = True)
-            else:
-                html = displacy.render(doc, style = "ent", page = True)
-            
+        html = displacy.render(doc, style = "ent", options = dct, page = True)
+        #html = ""
+        #if options !="":
+        #    html = displacy.render(doc, style = "ent", options = dct, page = True)
+        #    html = html.replace('<div class="entities">', '<div class="entities targeted">')
+        #else:
+            #html = displacy.render(doc, style = "ent", page = True)
         back_button = '<br><a href="/form"><button>Go back to form</button></a>'
         return HTMLResponse(content=html + back_button)
     except Exception as e:
