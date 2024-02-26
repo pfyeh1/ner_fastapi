@@ -60,7 +60,7 @@ class Article(BaseModel):
 # define route
 @app.get("/")
 async def read_main(request: Request):
-    return templates.TemplateResponse(request = request, name = "index.html")
+    return templates.TemplateResponse("index.html", {"request": request})
 
 @app.post("/entities")
 async def analyze_text(query: Article):
