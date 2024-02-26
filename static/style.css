@@ -23,6 +23,7 @@ time, mark, audio, video {
 body {
   font-family: 'Roboto', sans-serif;
    background-color: #f0f0f0;
+   padding: 20px;
 }
 
 /* Remove list styles */
@@ -45,6 +46,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Form styles */
 form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   margin-bottom: 20px;
 }
 
@@ -71,17 +75,19 @@ input[type="submit"]:hover {
 }
 
 /* Button styles */
-button {
+.button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #ccc;
   color: #fff;
+  font-size: 10px;
+  text-align: center;
   border: none;
   border-radius: 3px;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #0056b3;
+.button:hover {
+  background-color: #aaa;
 }
 
 /* Table styles */
