@@ -9,6 +9,15 @@ Project to understand how to deploy a basic ML model into production using Docke
 ## Getting Started
 Config file used to load custom entity lists and labels to supplement and filter pre-trained model.
 
+## Routes
+
+| Method     | URL           |
+|------------|---------------|
+| `POST`     | `/entities`   | 
+| `GET`      | `/form`       | 
+| `POST`     | `/form`       | 
+
+
 
 
 ## Further Reading
