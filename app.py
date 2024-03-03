@@ -13,6 +13,10 @@ import json
 import spacy
 from spacy import displacy
 
+from pyvis.network import Network
+from collections import defaultdict
+
+import uuid
 
 app = FastAPI()
 
@@ -54,6 +58,33 @@ def extract_entities(text, allowed_labels):
 
     return results
 
+def create_network(text, allowed_lables):
+    """
+    extracts entities and associated labels
+    :param text: article text
+    returns network graph
+    """   
+    doc = nlp(text)
+
+    # initalize network
+    net = Network()
+
+    # Create a defaultdict to store node IDs
+    node_ids = defaultdict(lambda: len(node_ids))
+
+    # Add nodes and edges
+    for ent in doc.ents:
+        if ent.label_ in allowed_labels:
+            source_id = node_ids[ent.text]
+            net.add_node(source_id, label=ent.text, title=ent.label_)
+            for token in ent.sent:
+                if token.ent_type_:
+                    target_id = node_ids[token.text]
+                    net.add_node(target_id, label=token.text, title=token.ent_type_)
+                    if source_id != target_id:  # Avoid self-loops
+                        net.add_edge(source_id, target_id)  
+    return net
+
 class Article(BaseModel):
     text: str
 
@@ -75,16 +106,28 @@ async def form_get(request: Request):
     return templates.TemplateResponse('form.html', context={'request': request})
 
 @app.post("/form", response_class = HTMLResponse)
-async def analyze_form_text(msg: str = Form()):
+async def analyze_form_text(msg: str = Form(), action: str = Form()):
     try:
-        doc = nlp(msg)
-        html = displacy.render(doc, style = "ent", options = dct, page = True)
-        #html = ""
-        #if options !="":
-        #    html = displacy.render(doc, style = "ent", options = dct, page = True)
-        #    html = html.replace('<div class="entities">', '<div class="entities targeted">')
-        #else:
-            #html = displacy.render(doc, style = "ent", page = True)
+        if action == 'extract':
+            doc = nlp(msg)
+            html = displacy.render(doc, style = "ent",options = dct, page = True)
+            #html = ""
+            #if options !="":
+            #    html = displacy.render(doc, style = "ent", options = dct, page = True)
+            #    html = html.replace('<div class="entities">', '<div class="entities targeted">')
+            #else:
+                #html = displacy.render(doc, style = "ent", page = True)
+        elif action == 'visualize':
+            net = create_network(msg, allowed_labels)
+            # generate unique fname for request
+            temp_fname = f"temp_network_graph_{uuid.uuid4().hex}.html"
+            with open(temp_fname, 'r') as file:
+                html = file.read()
+            os.remove(temp_fname)
+
+        else:
+            html = "<p>Oops! Something went wrong!</p>"
+        
         back_button = '<br><a href="/form"><button>Go back to form</button></a>'
         return HTMLResponse(content=html + back_button)
     except Exception as e:
