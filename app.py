@@ -119,12 +119,8 @@ async def analyze_form_text(msg: str = Form(), action: str = Form()):
                 #html = displacy.render(doc, style = "ent", page = True)
         elif action == 'visualize':
             net = create_network(msg, allowed_labels)
-            # generate unique fname for request
-            temp_fname = f"temp_network_graph_{uuid.uuid4().hex}.html"
-            with open(temp_fname, 'r') as file:
-                html = file.read()
-            os.remove(temp_fname)
-
+            # generate html
+            html = net.generate_html()
         else:
             html = "<p>Oops! Something went wrong!</p>"
         
