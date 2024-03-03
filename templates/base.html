@@ -1,0 +1,16 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Entity Recognition{% endblock %}</title>
+    <!-- Include your CSS for styling -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    {% block content %}
+        {{content_html|safe}}
+    {% endblock %}
+    <br><a href="/form"><button class="back-button">Go back to form</button></a>
+</body>
+</html>

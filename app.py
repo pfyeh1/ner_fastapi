@@ -106,26 +106,30 @@ async def form_get(request: Request):
     return templates.TemplateResponse('form.html', context={'request': request})
 
 @app.post("/form", response_class = HTMLResponse)
-async def analyze_form_text(msg: str = Form(), action: str = Form()):
+async def analyze_form_text(request:Request, msg: str = Form(), action: str = Form()):
     try:
         if action == 'extract':
             doc = nlp(msg)
-            html = displacy.render(doc, style = "ent",options = dct, page = True)
-            #html = ""
+            content_html = displacy.render(doc, style = "ent",options = dct, page = True)
+            #content_html = ""
             #if options !="":
-            #    html = displacy.render(doc, style = "ent", options = dct, page = True)
-            #    html = html.replace('<div class="entities">', '<div class="entities targeted">')
+            #    content_html = displacy.render(doc, style = "ent", options = dct, page = True)
+            #    content_html = content_html.replace('<div class="entities">', '<div class="entities targeted">')
             #else:
-                #html = displacy.render(doc, style = "ent", page = True)
+                #content_html = displacy.render(doc, style = "ent", page = True)
         elif action == 'visualize':
             net = create_network(msg, allowed_labels)
             # generate html
-            html = net.generate_html()
+            content_html = net.generate_html()
         else:
-            html = "<p>Oops! Something went wrong!</p>"
+            content_html = "<p>Oops! Something went wrong!</p>"
         
-        back_button = '<br><a href="/form"><button>Go back to form</button></a>'
-        return HTMLResponse(content=html + back_button)
+        #back_button = '<br><a href="/form"><button>Go back to form</button></a>'
+        #return HTMLResponse(content=content_html + back_button)
+        return templates.TemplateResponse("base.html", {
+            "request":request,
+            "content_html":content_html
+            })
     except Exception as e:
         raise HTTPException(status_code = 500, detail = str(e))
 
