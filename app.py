@@ -58,7 +58,7 @@ def extract_entities(text, allowed_labels):
 
     return results
 
-def create_network(text, allowed_lables):
+def create_network(text, allowed_labels):
     """
     extracts entities and associated labels
     :param text: article text

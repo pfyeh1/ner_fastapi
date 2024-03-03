@@ -52,6 +52,12 @@ form {
   margin-bottom: 20px;
 }
 
+/* Set font size for radio button labels */
+label {
+        font-size: 14px; /* Adjust the value to change the font size */
+}
+
+
 input[type="text"], textarea {
   width: 100%;
   padding: 10px;
@@ -70,8 +76,18 @@ input[type="submit"] {
   cursor: pointer;
 }
 
+input[type="submit"],
+input[type="button"] {
+        margin-top: 25px;
+}
+
 input[type="submit"]:hover {
   background-color: #0056b3;
+  }
+
+input[type="radio"] {
+        margin-left: 10px;
+        
 }
 
 /* Button styles */
@@ -113,3 +129,4 @@ th {
 tr.highlight {
   background-color: #ffffcc; /* Light yellow background color */
 }
+
