@@ -67,7 +67,7 @@ def create_network(text, allowed_labels):
     doc = nlp(text)
 
     # initalize network
-    net = Network()
+    net = Network(bgcolor="#222222", font_color="white", cdn_resources = 'remote')
 
     # Create a defaultdict to store node IDs
     node_ids = defaultdict(lambda: len(node_ids))
