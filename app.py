@@ -37,7 +37,7 @@ def load_config_from_env():
     
     with open(config_file_path, "r") as f:
         config = json.load(f)
-    return config["entity_dicts"], config["allowed_labels"], config["testing"]
+    return config["entity_dicts"], config["allowed_labels"], config["testing"], config['network_options']
 
 def extract_entities(text, allowed_labels):
     """
@@ -58,7 +58,7 @@ def extract_entities(text, allowed_labels):
 
     return results
 
-def create_network(text, allowed_labels):
+def create_network(text, allowed_labels, net_options):
     """
     extracts entities and associated labels
     :param text: article text
@@ -83,6 +83,9 @@ def create_network(text, allowed_labels):
                     net.add_node(target_id, label=token.text, title=token.ent_type_)
                     if source_id != target_id:  # Avoid self-loops
                         net.add_edge(source_id, target_id)  
+    # customize network
+    net.set_options(net_options)
+    
     return net
 
 class Article(BaseModel):
@@ -118,7 +121,7 @@ async def analyze_form_text(request:Request, msg: str = Form(), action: str = Fo
             #else:
                 #content_html = displacy.render(doc, style = "ent", page = True)
         elif action == 'visualize':
-            net = create_network(msg, allowed_labels)
+            net = create_network(msg, allowed_labels, net_options)
             # generate html
             content_html = net.generate_html()
         else:
@@ -134,7 +137,7 @@ async def analyze_form_text(request:Request, msg: str = Form(), action: str = Fo
         raise HTTPException(status_code = 500, detail = str(e))
 
 #load dictionaries from config file
-entity_dicts, allowed_labels, testing = load_config_from_env()
+entity_dicts, allowed_labels, testing, net_options = load_config_from_env()
 
 # import language model
 if testing == "true":

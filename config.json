@@ -12,5 +12,6 @@
                         "PRODUCT",
                         "LOC",
                         "EVENT",
-                        "LAW"]
-  }
+                        "LAW"],
+"network_options": "const options = {\n  \"physics\": {\n    \"barnesHut\": {\n      \"gravitationalConstant\": -10500\n    },\n    \"minVelocity\": 0.75\n  }\n}"  
+}
