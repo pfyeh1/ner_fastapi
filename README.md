@@ -7,7 +7,7 @@ Basic Named Entity Extractor using spaCy and FastAPI
 Project to understand how to deploy a basic ML model into production using Docker and AWS ECR, and EC2 services. 
 
 ## Getting Started
-Config file used to load custom entity lists to supplement pre-trained model extractions. One can also define the the labeled entities the model will extract by defining a list of labels.
+Config file is used to load custom entity lists to supplement pre-trained model extractions. One can also define the the labeled entities the model will extract by passing a list of labels.
 
 ```JSON
 {
