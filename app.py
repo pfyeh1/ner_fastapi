@@ -51,7 +51,8 @@ def extract_entities(text, allowed_labels):
     labels = Counter([x[1] for x in items])
     ent_counts = Counter([x[0] for x in items])
 
-    results['ents_labels'] = items
+    #results['ents_labels'] = items
+    results['ents_labels'] = list(set(items))
     results['entities'] = list(set([x[0] for x in items]))
     results['labels'] = labels
     results['ent_counts'] = ent_counts
@@ -114,12 +115,6 @@ async def analyze_form_text(request:Request, msg: str = Form(), action: str = Fo
         if action == 'extract':
             doc = nlp(msg)
             content_html = displacy.render(doc, style = "ent",options = dct, page = True)
-            #content_html = ""
-            #if options !="":
-            #    content_html = displacy.render(doc, style = "ent", options = dct, page = True)
-            #    content_html = content_html.replace('<div class="entities">', '<div class="entities targeted">')
-            #else:
-                #content_html = displacy.render(doc, style = "ent", page = True)
         elif action == 'visualize':
             net = create_network(msg, allowed_labels, net_options)
             # generate html
@@ -151,5 +146,5 @@ else:
 dct = {'ents':allowed_labels}
 
 # add entity ruler patterns to spaCy pipeline
-ruler = nlp.add_pipe("entity_ruler")
+ruler = nlp.add_pipe("entity_ruler", before = 'ner')
 ruler.add_patterns(entity_dicts)
