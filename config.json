@@ -1,5 +1,5 @@
 {
-  "testing": "true", 
+  "testing": "false", 
   "entity_dicts": [
       {"label": "ORG", "pattern": [{"LOWER": "hamas"}]},
       {"label": "ORG", "pattern": [{"LOWER": "hizballah"}]}
