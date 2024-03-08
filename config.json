@@ -4,9 +4,11 @@
       {"label": "ORG", "pattern": [{"LOWER": "hamas"}]},
       {"label": "ORG", "pattern": [{"TEXT": {"REGEX": "\\b[Hh]{1}[i|e]{1}zb[a|o]{1}ll[a|u]{1}h\\b"}}]}
     ],
-  "patterns": {
-    "PRODUCT": ["\\b[aA-zZ]{1,5}-(?:[A-Z0-9]{1,5}-)?[A-Z0-9]{1,5}\\b"]
-    },
+    "product_patterns":[
+        "\\b[aA-zZ]{1,5}-(?:[A-Z0-9]{1,5}-)?[A-Z0-9]{1,5}\\b",
+        "\\b(?:Project|TYPE|Type)\\s+\\d+[A-Z]?(?:X)?\\b",
+        "\\b[A-Z]+-class\\b"
+      ],
   "allowed_labels": ["GPE",
                         "FAC",
                         "PERSON",

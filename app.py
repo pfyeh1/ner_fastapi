@@ -39,15 +39,21 @@ def load_config_from_env():
     
     with open(config_file_path, "r") as f:
         config = json.load(f)
-    return config["entity_dicts"], config["allowed_labels"], config["testing"], config['network_options'], config['patterns']
+    return (
+        config["entity_dicts"],
+        config["allowed_labels"],
+        config["testing"],
+        config['network_options'],
+        config['product_patterns']
+    )
 
-def extract_entities(text, allowed_labels, patterns):
+def extract_entities(text, allowed_labels, product_patterns):
     """
     extracts entities and associated labels
     :param text: article text
     returns dictionary of entity and label
     """
-    doc = make_spacy_doc(text, patterns)
+    doc = make_spacy_doc(text, product_patterns)
 
     results = {}
     items = list(set([(x.text, x.label_) for x in doc.ents if x.label_ in allowed_labels]))
@@ -62,7 +68,7 @@ def extract_entities(text, allowed_labels, patterns):
 
     return results
 
-def make_spacy_doc(text, patterns):
+def make_spacy_doc(text, product_patterns):
     """
     extracts entities utilizing patterns
     :param text: article text
@@ -73,12 +79,11 @@ def make_spacy_doc(text, patterns):
     # let's get regex extracted entities
     new_ents = []
  
-    for label, ptrns in patterns.items():
-        for ptrn in ptrns:
-            for match in re.finditer(ptrn, doc.text):
-                ent = doc.char_span(match.start(), match.end(), label=label)
-                if ent is not None:  # Ensure the span is valid
-                    new_ents.append(ent)
+    for ptrn in product_patterns:
+        for match in re.finditer(ptrn, doc.text):
+            ent = doc.char_span(match.start(), match.end(), label='PRODUCT')
+            if ent is not None:  # Ensure the span is valid
+                new_ents.append(ent)
 
     # combine existing entities with new entities
     all_entities = list(doc.ents) + new_ents
@@ -90,13 +95,13 @@ def make_spacy_doc(text, patterns):
 
     return doc
 
-def create_network(text, allowed_labels, net_option, patterns):
+def create_network(text, allowed_labels, net_option, product_patterns):
     """
     extracts entities and associated labels
     :param text: article text
     returns network graph
     """   
-    doc = make_spacy_doc(text, patterns)
+    doc = make_spacy_doc(text, product_patterns)
 
     # initalize network
     net = Network(bgcolor="#222222", font_color="white", cdn_resources = 'remote')
@@ -131,7 +136,7 @@ async def read_main(request: Request):
 @app.post("/entities")
 async def analyze_text(query: Article):
     try:
-        entities = extract_entities(query.text, allowed_labels, patterns)
+        entities = extract_entities(query.text, allowed_labels, product_patterns)
         return {"entities": entities}
     except Exception as e:
         raise HTTPException(status_code = 500, detail = str(e))
@@ -144,10 +149,10 @@ async def form_get(request: Request):
 async def analyze_form_text(request:Request, msg: str = Form(), action: str = Form()):
     try:
         if action == 'extract':
-            doc = make_spacy_doc(msg, patterns)
+            doc = make_spacy_doc(msg, product_patterns)
             content_html = displacy.render(doc, style = "ent",options = dct, page = True)
         elif action == 'visualize':
-            net = create_network(msg, allowed_labels, net_options, patterns)
+            net = create_network(msg, allowed_labels, net_options, product_patterns)
             # generate html
             content_html = net.generate_html()
         else:
@@ -163,7 +168,7 @@ async def analyze_form_text(request:Request, msg: str = Form(), action: str = Fo
         raise HTTPException(status_code = 500, detail = str(e))
 
 #load dictionaries from config file
-entity_dicts, allowed_labels, testing, net_options, patterns = load_config_from_env()
+entity_dicts, allowed_labels, testing, net_options, product_patterns = load_config_from_env()
 
 # import language model
 if testing == "true":
