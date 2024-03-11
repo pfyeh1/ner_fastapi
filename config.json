@@ -8,7 +8,8 @@
     "product_patterns":[
         "\\b[aA-zZ]{1,10}-(?:[A-Z0-9]{1,5}-)?[A-Z0-9]{1,8}\\b",
         "\\b(?:Project|TYPE|Type)\\s+\\d+[A-Z]?(?:X)?\\b",
-        "\\b[A-Z]+-class\\b"
+        "\\b[A-Z]+-class\\b",
+        "\\b[A-Z]{1,10}\\s[A-Z0-9]{1,10}\\b"
       ],
   "allowed_labels": ["GPE",
                         "FAC",
