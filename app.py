@@ -93,10 +93,6 @@ def make_spacy_doc(text, product_patterns):
 
     doc.ents = filtered_entities
 
-    existing_ents = [ent for ent in doc.ents if not any(ent.start_char == new_ent.start_char and ent.end_char == new_ent.end_char for new_ent in new_ents)]
-
-    doc.ents = existing_ents + new_ents
-
     return doc
 
 def create_network(text, allowed_labels, net_option, product_patterns):
