@@ -86,7 +86,7 @@ def make_spacy_doc(text, product_patterns):
                 new_ents.append(ent)
 
     # combine existing entities with new entities
-    all_entities = list(doc.ents) + new_ents
+    all_entities = new_ents + list(doc.ents) 
 
     # Use filter_spans to remove overlaps
     filtered_entities = filter_spans(all_entities)
