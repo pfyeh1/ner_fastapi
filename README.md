@@ -36,6 +36,9 @@ Config file is used to manage custom entity lists and regex patterns. One can al
 | `GET`      | `/form`       | 
 | `POST`     | `/form`       | 
 
+## Testing
+I performed testing on the english small, medium, and large models in a separate notebook using manuall tagged entities from different text to generate my truth table. Results of the mode comparisons suggest that the medium language model performed best overall in terms pf precision/recall and F1 scores.
+
 
 ## Further Reading
 
