@@ -7,7 +7,14 @@ Basic Named Entity Extractor using spaCy and FastAPI
 Project to understand how to deploy a basic ML model into production using Docker and AWS ECR, and EC2 services as well as learning how to use the FastAPI library. Named Entity Extractor uses pre-trained spaCy english language model supplemented with regex patterns and an entity dictionary.
 
 ## Getting Started
-Config file is used to manage custom entity lists and regex patterns. One can also define the the labeled entities the model will extract by defining a list of allowed labels.
+Config file is used to manage custom entity lists and regex patterns.
+
+'''
+export CONFIG_FILE_PATH=/path/to/your/config.json
+'''
+
+
+One can also define the the labeled entities the model will extract by defining a list of allowed labels.
 
 ```JSON
 {
