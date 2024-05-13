@@ -9,9 +9,12 @@ Project to understand how to deploy a basic ML model into production using Docke
 ## Getting Started
 Config file is used to manage custom entity lists and regex patterns.
 
+```bash
+
+export CONFIG_FILE_PATH="/path/to/your/config.json"
+
 ```
-export CONFIG_FILE_PATH=/path/to/your/config.json
-```
+
 
 
 One can also define the the labeled entities the model will extract by defining a list of allowed labels.
